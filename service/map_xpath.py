@@ -10,7 +10,7 @@ def map_xpath_to_tag(loc, ct, file_name, sn):
     for i, x in enumerate(t):
         df.insert(i, x, '')
     df['m_xpath'] = df['Legacy Xpaths']
-    df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}.xlsx', sheet_name='xpath_map')
+    df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}_rule.xlsx', sheet_name='xpath_map')
     df_foo.set_index("xpath", drop=True, inplace=True)
     dictionary = df_foo.to_dict(orient="index")
 

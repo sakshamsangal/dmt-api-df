@@ -4,7 +4,11 @@ import pandas as pd
 def map_tag(loc, ct):
     df = pd.read_excel(f'{loc}/{ct}/excel/dm_sheet/{ct}_xpath.xlsx', sheet_name='Sheet1')
 
-    df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}.xlsx', sheet_name='tag_master')
+    df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}_rule.xlsx', sheet_name='tag_master')
+    df_data_dic = df_foo.groupby('map_tag').tag.agg([('count', 'count'), ('tag', ', '.join)])
+    with pd.ExcelWriter(f'{loc}/{ct}/excel/{ct}_rule.xlsx', engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+        df_data_dic.to_excel(writer, sheet_name='data_dic')
+
     df_foo.set_index("tag", drop=True, inplace=True)
     dictionary = df_foo.to_dict(orient="index")
 
@@ -21,7 +25,7 @@ def map_tag(loc, ct):
     dictionary = df_foo.to_dict(orient="index")
 
     for key, val in dictionary.items():
-        df['m_xpath'].replace(to_replace=key, value=val['map_tag'], regex=True, inplace=True)
+        df['m_xpath'].replace(to_replace=key, value=val['xpath_map'], regex=True, inplace=True)
 
     df.to_excel(f'{loc}/{ct}/excel/dm_sheet/{ct}_tag.xlsx', index=False)
     return True

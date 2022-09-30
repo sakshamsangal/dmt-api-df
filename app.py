@@ -6,6 +6,7 @@ from service import fill_comp_style as fcs
 from service import fill_feat as ff
 from service import map_tag as mt1
 from service import map_xpath as mx1
+from service import dd_to_tm
 
 app = Flask(__name__)
 
@@ -41,6 +42,18 @@ def map_xpath():
         return jsonify({'status': str(e)})
 
 
+@app.route("/fill-tm-by-dd", methods=["POST"])
+def fill_tm_by_dd():
+    try:
+        if request.method == "POST":
+            loc = request.json['loc']
+            ct = request.json['ct']
+            res = dd_to_tm.fill_tm_by_dd(loc, ct)
+            return {'status': res}
+    except Exception as e:
+        return jsonify({'status': str(e)})
+
+
 @app.route("/map-tag", methods=["POST"])
 def map_tag():
     try:
@@ -71,9 +84,7 @@ def fill_comp_style():
         if request.method == "POST":
             loc = request.json['loc']
             ct = request.json['ct']
-            fn = request.json['fn']
-            cond = request.json['cond']
-            ls, fc = fcs.fill_comp_style(loc, ct, fn, cond)
+            ls, fc = fcs.fill_comp_style(loc, ct)
             return {'xpath_left': ls, 'false_count': fc}
     except Exception as e:
         return jsonify({'status': str(e)})
