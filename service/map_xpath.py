@@ -10,14 +10,11 @@ def map_xpath_to_tag(loc, ct, file_name, sn):
     for i, x in enumerate(t):
         df.insert(i, x, '')
     df['m_xpath'] = df['Legacy Xpaths']
-    # ls = rd.get_patt_to_be_replaced(loc, ct)
     df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}.xlsx', sheet_name='xpath_map')
     df_foo.set_index("pat", drop=True, inplace=True)
     dictionary = df_foo.to_dict(orient="index")
-    # ls = rd.get_patt_to_be_replaced(loc, ct)
 
     for key, val in dictionary.items():
-        df['m_xpath'].replace(to_replace=fr'{key}\\b', value=val['map_to'], regex=True, inplace=True)
+        df['m_xpath'].replace(to_replace=r'' + key + '\\b', value=val['map_to'], regex=True, inplace=True)
     df.to_excel(f'{loc}/{ct}/excel/dm_sheet/{ct}_xpath.xlsx', index=False)
     return True
-

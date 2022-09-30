@@ -5,7 +5,7 @@ import pandas as pd
 
 def fill_feature(loc, ct):
     # ls = rd.get_patt_to_be_replaced(loc, ct)
-    df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}.xlsx', sheet_name='fill_feat')
+    df_foo = pd.read_excel(f'{loc}/fixed.xlsx', sheet_name='fill_feat')
     df_foo.set_index("pat", drop=True, inplace=True)
     dictionary = df_foo.to_dict(orient="index")
     # ls = rd.get_patt_to_be_replaced(loc, ct)
