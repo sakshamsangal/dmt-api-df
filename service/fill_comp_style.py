@@ -51,13 +51,13 @@ def my_ends_with(loc, ct, df, df_new):
 def fill_exception(loc, ct, df, df_new):
     df_foo = pd.read_excel(f'{loc}/{ct}/excel/{ct}.xlsx', sheet_name='exception')
     df_foo.fillna('', inplace=True)
-    df_foo.set_index("pat", drop=True, inplace=True)
+    df_foo.set_index("xpath", drop=True, inplace=True)
     dictionary = df_foo.to_dict(orient="index")
 
     for key, val in dictionary.items():
-        pat = re.compile(key)
+        xpath = re.compile(key)
         for index, row in df.iterrows():
-            if re.fullmatch(pat, row[val['pat_col']]):
+            if re.fullmatch(xpath, row[val['m_xpath']]):
                 df.iat[index, 1] = val['comp']  # comp
                 df.iat[index, 2] = val['styling']  # styling
                 if val['overwrite_feat'] == 1:

@@ -60,7 +60,7 @@ def fill_feat():
             loc = request.json['loc']
             ct = request.json['ct']
             ls = ff.fill_feature(loc, ct)
-            return {'pat': ls}
+            return {'xpath': ls}
     except Exception as e:
         return jsonify({'status': str(e)})
 
